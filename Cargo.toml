@@ -10,4 +10,6 @@ edition = "2021"
 walkdir = "2"
 ring = "0.16.20"
 data-encoding = "2.3.2"
+clap = { version = "4.0.32", features = ["derive"] }
+colored = "2.1.0"
 
