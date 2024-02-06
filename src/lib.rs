@@ -27,6 +27,7 @@ use ring::digest::{Context, Digest, SHA256};
 use std::fs::File;
 use std::io::{BufReader, Read};
 
+/// Calculate the SHA256 digest of a file
 fn sha256_digest<R: Read>(mut reader: R) -> Result<Digest, Error> {
 
     let mut context = Context::new(&SHA256);
@@ -50,7 +51,8 @@ pub fn run() -> Result<(), Error>{
     println!("{:?}", args);
 
     let mut filenames = HashMap::new();
-    let mut shas = BTreeMap::new();
+    let mut shas: BTreeMap<String, Vec<String>> = BTreeMap::new();
+    // let mut shas: HashMap<String, Vec<String>> = HashMap::new();
 
     if let Some(paths) = args.path {
         if paths.is_empty() {
@@ -74,6 +76,7 @@ pub fn run() -> Result<(), Error>{
                         let reader = BufReader::new(input);
                         let digest = sha256_digest(reader)?;
                         let sha_val = HEXUPPER.encode(digest.as_ref());
+                        // let sha_val = "FE0BFCE8B0C9A06D0942BB96242E352FEF88EB232286B28E70B197B1B9C6B91F".to_string();
                         let sha_matches = shas.entry(sha_val).or_insert(Vec::new());
                         sha_matches.push(f_path);
                 }
